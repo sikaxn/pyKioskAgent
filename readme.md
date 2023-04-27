@@ -5,6 +5,12 @@ This program is for running a computer in kiosk mode using Safe Exam Browser. Th
 
 [Download Safe Exam Browser](https://safeexambrowser.org/download_en.html)
 
+Making API call can be done using fetch through js. For security reason, it is only possible to call API locally. 
+
+```fetch('http://localhost:5000/endpoint')```.
+
+
+
 # How this work
 
 ![img](/images/pyKiosk.jpg)
@@ -167,8 +173,7 @@ This API for Printer provides two methods for interacting with a printer:
 - `print`: saves text as WLSDFKJN.DRY under the same directory of the script, waits for 3 seconds, and returns a JSON response indicating the result of the print operation and the original text being printed.
 - `startagent`: checks if APRINT6.EXE is running, and if it is, kills it and starts it minimized. If it's not running, starts it minimized. Returns a JSON response indicating whether the agent was restarted or started.
 
-
-This print function is based on `aprint6.exe`. This program is from Free POS. More information about Free POS can be found [Here](https://keyhut.com/pos.htm).
+This print function is based on `aprint6.exe`agent program. This program is from Free POS. More information about Free POS can be found [Here](https://keyhut.com/pos.htm).
 
 `aprint6.exe` monitor it's running directory for `WLSDFKJN.DRY`. If this file exist, it will print it using the printer chosen on `aprint.ini`. You can generate this file by opening `aprint6.exe`, selet the printer and set the font. Please make sure yur printer driver has been installed before this step.
 
