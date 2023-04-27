@@ -7,7 +7,7 @@ This program is for running a computer in kiosk mode using Safe Exam Browser. Th
 
 Making API call can be done using fetch through js. For security reason, it is only possible to call API locally. 
 
-```fetch('http://localhost:5000/endpoint')```.
+```fetch('http://localhost:5000/endpoint')```
 
 
 
