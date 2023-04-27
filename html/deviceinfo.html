@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+    <title>pyKioskAgent Demo</title>
+    <link
+      rel="stylesheet"
+      href="splash_style.css"
+      type="text/css"
+      media="all"
+      title="no title"
+      charset="utf-8"
+    />
+  </head>
+  <body id="splash">
+    <div id="wrapper">
+      <div id="center_box">
+        <div id="splash"></div>
+        <a href="index.html" class="button">Go Back</a><br>
+        <div class="outputtable"></div>
+    </div>
+    <script>
+      // Get the outputtable element
+     const outputTable = document.querySelector('.outputtable');
+     
+     // Fetch the deviceinfo data
+     fetch('http://127.0.0.1:5000/deviceinfo')
+       .then(response => response.json()) // parse the response as JSON
+       .then(data => {
+         // Create the table element
+         const table = document.createElement('table');
+         table.style.borderCollapse = 'collapse';
+         table.style.border = '1px solid black';
+     
+         // Create the header row
+         const headerRow = table.insertRow();
+         const headers = Object.keys(data);
+         for (let header of headers) {
+           const th = document.createElement('th');
+           th.textContent = header;
+           headerRow.appendChild(th);
+         }
+     
+         // Create the data rows
+         const dataRow = table.insertRow();
+         for (let header of headers) {
+           const td = document.createElement('td');
+           if (Array.isArray(data[header])) {
+             // Format arrays as JSON strings
+             td.textContent = JSON.stringify(data[header]);
+           } else {
+             td.textContent = data[header];
+           }
+           dataRow.appendChild(td);
+         }
+     
+         // Add the table to the outputtable element
+         outputTable.appendChild(table);
+       })
+       .catch(error => console.error(error));
+     
+         </script>
+  </body>
+</html>
