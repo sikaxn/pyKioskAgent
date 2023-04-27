@@ -1,4 +1,13 @@
-# Kiosk Agent 
+# SEB py Kiosk Agent 
+
+This program is for running a computer in kiosk mode using Safe Exam Browser. This agent program provide extra apis for deep level control of the kiosk. 
+
+
+[Download Safe Exam Browser](https://safeexambrowser.org/download_en.html)
+
+# How this work
+
+![img](/images/pyKiosk.jpg)
 
 ## GET /
 
