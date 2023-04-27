@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>NetInfo Data</title>
+  </head>
+  <body>
+    <div class="outputtable"></div>
+    <script>
+      fetch('http://127.0.0.1:5000/netinfo')
+  .then(response => response.json())
+  .then(data => {
+    const outputTable = document.createElement('table');
+    outputTable.classList.add('outputtable');
+
+    // Create table header with labeled columns
+    const tableHeader = document.createElement('thead');
+    const headerRow = document.createElement('tr');
+    const ipHeader = document.createElement('th');
+    ipHeader.innerText = 'IP Address';
+    const macHeader = document.createElement('th');
+    macHeader.innerText = 'MAC Address';
+    const nameHeader = document.createElement('th');
+    nameHeader.innerText = 'Name';
+    headerRow.appendChild(ipHeader);
+    headerRow.appendChild(macHeader);
+    headerRow.appendChild(nameHeader);
+    tableHeader.appendChild(headerRow);
+    outputTable.appendChild(tableHeader);
+
+    // Create table body with data from API
+    const tableBody = document.createElement('tbody');
+    data.forEach(item => {
+      const tableRow = document.createElement('tr');
+      const ipCell = document.createElement('td');
+      ipCell.innerText = item.ip_address;
+      const macCell = document.createElement('td');
+      macCell.innerText = item.mac_address;
+      const nameCell = document.createElement('td');
+      nameCell.innerText = item.name;
+      tableRow.appendChild(ipCell);
+      tableRow.appendChild(macCell);
+      tableRow.appendChild(nameCell);
+      tableBody.appendChild(tableRow);
+    });
+    outputTable.appendChild(tableBody);
+
+    // Add the table to the HTML document
+    const outputDiv = document.querySelector('.outputtable');
+    outputDiv.appendChild(outputTable);
+
+    // Add black border to the table
+    outputTable.style.border = '1px solid black';
+  })
+  .catch(error => console.error(error));
+
+    </script>
+  </body>
+</html>
