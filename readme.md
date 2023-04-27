@@ -2,7 +2,7 @@
 
 ## /
 
-make a GET request to the `/`, it will return agent good.
+make a GET request to the `/`, it will return ```agent good```.
 
 ## /netinfo 
 
@@ -95,3 +95,122 @@ Here is an example of the JSON output returned by the API:
   "shell": "python"
 }
 ```
+
+## /download
+
+This command downloads a file from a specified URL and saves it to a specified directory, with an optional filename. If the file is an executable and the `exe` parameter is set to `true`, the file will be executed after it is downloaded.
+
+
+### Parameters
+
+#### `url` (required)
+
+The URL of the file to be downloaded. This can be a HTTP link, a file from local disk, or an SMB volume.
+
+#### `dir` (optional)
+
+The directory where the downloaded file will be saved. If not provided, the file will be saved to `%TEMP%/kioskagent/`.
+
+#### `name` (optional)
+
+The name of the downloaded file. If not provided, the name of the file from the URL will be used.
+
+#### `exe` (optional)
+
+Whether or not to execute the downloaded file if it is an executable. Set to `true` or `false`. If set to `true` and the filename ends with `.exe`, `.bat`, `.ps1`, or `.vbs`, the file will be executed after it is downloaded.
+
+### Responses
+
+#### Success Response
+
+If the file is downloaded and, if applicable, executed successfully, the endpoint will return a JSON object with a status of `success`, the original file location, the new file location, and whether or not the file was executed:
+
+```
+{
+    "status": "success",
+    "original_file_location": "<url>",
+    "new_file_location": "<directory>/<filename>",
+    "run": <boolean>
+}
+```
+
+#### Error Response
+
+If an error occurs during the download or execution process, the endpoint will return a JSON object with a status of `error` and an error message:
+
+```
+{
+    "status": "error",
+    "message": "<error_message>"
+}
+```
+
+Possible error messages include:
+
+- `Directory <directory> does not exist`: The specified directory does not exist.
+- `Error downloading file: <error_message>`: An error occurred while attempting to download the file.
+- `Error executing file: <error_message>`: An error occurred while attempting to execute the file.
+
+## /printer
+
+This API for Printer provides two methods for interacting with a printer:
+
+- `print`: saves text as WLSDFKJN.DRY under the same directory of the script, waits for 3 seconds, and returns a JSON response indicating the result of the print operation and the original text being printed.
+- `startagent`: checks if APRINT6.EXE is running, and if it is, kills it and starts it minimized. If it's not running, starts it minimized. Returns a JSON response indicating whether the agent was restarted or started.
+
+
+### `print` Method
+
+To print a text, send a GET request to `/printer` with the following query parameters:
+
+- `method`: The method to use, which should be set to `print`.
+- `text`: The text to print.
+
+For example, to print the text "Hello, world!" send a GET request to:
+
+```
+http://localhost:5000/printer?method=print&text=Hello%2C%20world%21
+```
+
+Note that the text should be URL encoded.
+
+The API will respond with a JSON object with the following keys:
+
+- `result`: The result of the print operation, which can be one of the following:
+    - `success`: The text was successfully printed.
+    - `print failed`: The text failed to print because APRINT6.EXE is running.
+    - `not running`: The text failed to print because APRINT6.EXE is not running.
+- `text`: The original text that was printed.
+
+### `startagent` Method
+
+To start or restart the APRINT6.EXE agent, send a GET request to `/printer` with the following query parameters:
+
+- `method`: The method to use, which should be set to `startagent`.
+
+For example, to start the agent, send a GET request to:
+
+```
+http://localhost:5000/printer?method=startagent
+```
+
+The API will respond with a JSON object with the following keys:
+
+- `result`: The result of the agent start operation, which can be one of the following:
+    - `restart`: The agent was restarted because it was already running.
+    - `start`: The agent was started because it was not running.
+    - `failed to start agent`: The agent failed to start.
+    
+### Response Headers
+
+The API includes the `Access-Control-Allow-Origin` header in the response, with a value of `*`, allowing any domain to make requests to the API.
+
+### Error Handling
+
+If an invalid method is specified in the request, the API will respond with a JSON object with the following key:
+
+- `result`: The result of the request, which will be `invalid method`.
+
+If the APRINT6.EXE agent fails to start for any reason, the `startagent` method will respond with a JSON object with the following key:
+
+- `result`: The result of the agent start operation, which will be `failed to start agent`.
