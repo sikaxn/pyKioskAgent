@@ -214,3 +214,76 @@ If an invalid method is specified in the request, the API will respond with a JS
 If the APRINT6.EXE agent fails to start for any reason, the `startagent` method will respond with a JSON object with the following key:
 
 - `result`: The result of the agent start operation, which will be `failed to start agent`.
+
+## /powermgmt
+
+The Power Management API allows you to manage the power state of the machine running the API. You can use this API to shutdown, restart, or sign off the user currently logged in. You can also use it to cancel any pending shutdown or restart.
+
+### Query Parameters
+
+The Power Management API supports the following query parameters:
+
+- `method`: The method to perform. This parameter is required. Valid values are:
+  - `signoff`: Sign off the current user.
+  - `shutdown`: Shut down the machine after a specified time.
+  - `restart`: Restart the machine after a specified time.
+  - `cancel`: Cancel any pending shutdown or restart.
+- `time`: The time in seconds until the machine shuts down or restarts. This parameter is optional and only valid when the `shutdown` or `restart` methods are used.
+
+### Responses
+
+The Power Management API returns a JSON response with the following fields:
+
+- `success`: A boolean indicating whether the operation was successful.
+- `method`: The method performed.
+- `time`: The time in seconds until the machine shuts down or restarts. This field is only present when the `shutdown` or `restart` methods are used.
+- `error`: A string containing an error message if the operation failed.
+
+
+### Examples
+
+#### Sign off
+
+To sign off the current user, make a `GET` request to `/powermgmt?method=signoff`.
+
+```json
+{
+    "success": true,
+    "method": "signoff"
+}
+```
+
+#### Shutdown
+
+To shut down the machine after 60 seconds, make a `GET` request to `/powermgmt?method=shutdown&time=60`.
+
+```json
+{
+    "success": true,
+    "method": "shutdown",
+    "time": 60
+}
+```
+
+#### Restart
+
+To restart the machine after 30 seconds, make a `GET` request to `/powermgmt?method=restart&time=30`.
+
+```json
+{
+    "success": true,
+    "method": "restart",
+    "time": 30
+}
+```
+
+#### Cancel
+
+To cancel any pending shutdown or restart, make a `GET` request to `/powermgmt?method=cancel`.
+
+```json
+{
+    "success": true,
+    "method": "cancel"
+}
+```
