@@ -168,6 +168,13 @@ This API for Printer provides two methods for interacting with a printer:
 - `startagent`: checks if APRINT6.EXE is running, and if it is, kills it and starts it minimized. If it's not running, starts it minimized. Returns a JSON response indicating whether the agent was restarted or started.
 
 
+This print function is based on `aprint6.exe`. This program is from Free POS. More information about Free POS can be found [Here](https://keyhut.com/pos.htm).
+
+`aprint6.exe` monitor it's running directory for `WLSDFKJN.DRY`. If this file exist, it will print it using the printer chosen on `aprint.ini`. You can generate this file by opening `aprint6.exe`, selet the printer and set the font. Please make sure yur printer driver has been installed before this step.
+
+For a more detailed document about `aprint6.exe`, checkout [here](https://keyhut.com/postip4.htm).
+
+
 ### `print` Method
 
 To print a text, send a GET request to `/printer` with the following query parameters:
