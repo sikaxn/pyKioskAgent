@@ -1,10 +1,10 @@
 # Kiosk Agent 
 
-## /
+## GET /
 
 make a GET request to the `/`, it will return ```agent good```.
 
-## /netinfo 
+## GET /netinfo 
 
 make a GET request to the `/netinfo` endpoint to retrieve the network interface information. The response will be a JSON object containing the IP address, MAC address, and name of each network interface.
 
@@ -33,7 +33,7 @@ Here is an example of the JSON output returned by the API:
 }
 ```
 
-## /deviceinfo
+## GET /deviceinfo
 
 make a GET request to the `/deviceinfo` endpoint to retrieves system information such as CPU, memory, disk usage, and display information and returns it in JSON format when the `/deviceinfo` endpoint is accessed.
 
@@ -61,7 +61,7 @@ Here is an example of the JSON output returned by the API:
 
 ```
 
-## /runshell
+## GET /runshell
 
 The Shell Command API allows you to execute shell commands on your system using a simple HTTP interface. You can use this API to automate system administration tasks, execute shell scripts remotely, and more.
 
@@ -96,7 +96,7 @@ Here is an example of the JSON output returned by the API:
 }
 ```
 
-## /download
+## GET /download
 
 This command downloads a file from a specified URL and saves it to a specified directory, with an optional filename. If the file is an executable and the `exe` parameter is set to `true`, the file will be executed after it is downloaded.
 
@@ -151,7 +151,7 @@ Possible error messages include:
 - `Error downloading file: <error_message>`: An error occurred while attempting to download the file.
 - `Error executing file: <error_message>`: An error occurred while attempting to execute the file.
 
-## /printer
+## GET /printer
 
 This API for Printer provides two methods for interacting with a printer:
 
@@ -215,7 +215,7 @@ If the APRINT6.EXE agent fails to start for any reason, the `startagent` method 
 
 - `result`: The result of the agent start operation, which will be `failed to start agent`.
 
-## /powermgmt
+## GET /powermgmt
 
 The Power Management API allows you to manage the power state of the machine running the API. You can use this API to shutdown, restart, or sign off the user currently logged in. You can also use it to cancel any pending shutdown or restart.
 
