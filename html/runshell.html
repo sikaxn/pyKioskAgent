@@ -1,0 +1,52 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <script src="jquery-3.6.0.min.js"></script>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+    <title>pyKioskAgent Demo</title>
+    <link
+      rel="stylesheet"
+      href="splash_style.css"
+      type="text/css"
+      media="all"
+      title="no title"
+      charset="utf-8"
+    />
+  </head>
+  <body id="splash">
+    <div id="wrapper">
+      <div id="center_box">
+        <div id="splash"></div>
+        <a href="index.html" class="button">Go Back</a><br>
+    <label for="shell">Select a shell:</label>
+    <select id="shell" name="shell">
+      <option value="cmd">Command Prompt</option>
+      <option value="powershell">PowerShell</option>
+      <option value="python">Python</option>
+    </select>
+    <br><br>
+    <label for="command">Enter a shell command:</label>
+    <input type="text" id="command" name="command">
+    <button onclick="runCommand()">Run Command</button>
+    <div class="out"></div></div>
+    <script>
+      function runCommand() {
+        const shell = document.getElementById("shell").value;
+        const command = document.getElementById("command").value;
+        const url = `http://127.0.0.1:5000/runshell?method=${shell}&shellcmd=${encodeURIComponent(command)}`;
+        fetch(url)
+          .then(response => response.json())
+          .then(data => {
+            const output = data.output;
+            const outputDiv = document.querySelector(".out");
+            outputDiv.innerHTML = `<pre>${output}</pre>`;
+          })
+          .catch(error => {
+            const outputDiv = document.querySelector(".out");
+            outputDiv.innerHTML = `<pre>${error.message}</pre>`;
+          });
+      }
+    </script>
+  </body>
+</html>

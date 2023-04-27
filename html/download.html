@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <script src="jquery-3.6.0.min.js"></script>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+    <title>pyKioskAgent Demo</title>
+    <link
+      rel="stylesheet"
+      href="splash_style.css"
+      type="text/css"
+      media="all"
+      title="no title"
+      charset="utf-8"
+    />
+    <script src="jquery-3.6.0.min.js"></script>
+  </head>
+  <body id="splash">
+    <div id="wrapper">
+      <div id="center_box">
+        <div id="splash"></div>
+        <a href="index.html" class="button">Go Back</a><br>
+    <label for="url-input">Enter file URL:</label>
+    <input type="text" id="url-input" name="url-input"><br><br>
+    <label for="dir-input">Enter directory path (optional):</label>
+    <input type="text" id="dir-input" name="dir-input"><br><br>
+    <label for="name-input">Enter file name (optional):</label>
+    <input type="text" id="name-input" name="name-input"><br><br>
+    <label for="exe-checkbox">Execute file after download:</label>
+    <input type="checkbox" id="exe-checkbox" name="exe-checkbox"><br><br>
+    <button id="download-btn">Download</button>
+    <div class="out"></div></div>
+    <script>
+      $(document).ready(function() {
+        $("#download-btn").click(function() {
+          var url = $("#url-input").val();
+          var dir = $("#dir-input").val();
+          var name = $("#name-input").val();
+          var exe = $("#exe-checkbox").is(":checked");
+          $.ajax({
+            type: "GET",
+            url: "http://127.0.0.1:5000/download",
+            data: {
+              url: url,
+              dir: dir,
+              name: name,
+              exe: exe
+            },
+            success: function(response) {
+              $(".out").text(JSON.stringify(response));
+            },
+            error: function(xhr, status, error) {
+              $(".out").text("Error: " + error);
+            }
+          });
+        });
+      });
+    </script>
+  </body>
+</html>

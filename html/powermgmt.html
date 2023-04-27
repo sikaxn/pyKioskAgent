@@ -1,0 +1,80 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+    <title>pyKioskAgent Demo</title>
+    <link
+      rel="stylesheet"
+      href="splash_style.css"
+      type="text/css"
+      media="all"
+      title="no title"
+      charset="utf-8"
+    />
+  </head>
+  <body id="splash">
+    <div id="wrapper">
+      <div id="center_box">
+        <div id="splash"></div>
+        <a href="index.html" class="button">Go Back</a><br>
+        <h1>Power Management API Demo</h1>
+
+	<label for="method">Method:</label>
+	<select id="method">
+		<option value="signoff">Sign Off</option>
+		<option value="shutdown">Shut Down</option>
+		<option value="restart">Restart</option>
+	</select>
+	<br><br>
+
+	<label for="time">Time (in seconds):</label>
+	<input type="number" id="time" min="0">
+	<br><br>
+
+	<button onclick="execute()">Execute</button>
+	<button onclick="cancel()">Cancel</button>
+    </div>
+    <script>
+      function execute() {
+        let method = document.getElementById("method").value;
+        let time = document.getElementById("time").value;
+  
+        let url = "http://127.0.0.1:5000/powermgmt?method=" + method;
+        if (method === "shutdown" || method === "restart") {
+          url += "&time=" + time;
+        }
+  
+        fetch(url)
+          .then(response => response.json())
+          .then(data => {
+            if (data.success) {
+              alert("Operation successful.");
+            } else {
+              alert("Operation failed. Error: " + data.error);
+            }
+          })
+          .catch(error => {
+            alert("An error occurred while executing the operation.");
+            console.log(error);
+          });
+      }
+  
+      function cancel() {
+        fetch("http://127.0.0.1:5000/powermgmt?method=cancel")
+          .then(response => response.json())
+          .then(data => {
+            if (data.success) {
+              alert("Operation canceled.");
+            } else {
+              alert("Operation failed. Error: " + data.error);
+            }
+          })
+          .catch(error => {
+            alert("An error occurred while canceling the operation.");
+            console.log(error);
+          });
+      }
+    </script>
+  </body>
+</html>
